@@ -1,0 +1,20 @@
+Since I made this game with advanced graphics in 3D, it's not playable on the web.
+My only 3D game, the beloved Flowstate.
+In this game, you fight team to team. But there's a twist! It's pool fighting!
+Join a lobby through Quick Play or Join Code, then wait for the host to start the round.
+There are two gamemodes: Normal and King of the Cube.
+Press WASD to move around, obviously. To swim, however you have to hold Shift. Swimming builds momentum.
+Momentum is used to increase the power of water moves and of jumps.
+Water moves take some stamina to launch, but deal a lot of stamina damage to opponents.
+There are 5 water moves available, each binded to a number key:
+1: Water Power: Launches a big wave that hits harder when the opponent is far.
+2: Water Attack: Launches a smaller, weaker water move that hits opponents harder when they're close.
+3: Water Wall: Raises a water wall that can be lowered to deal damage.
+4: Water Counter: Water Walls and Water Powers, but takes 50 stamina to launch.
+5: Water Pelt: Launches a small, weak water move that can go higher up, but deals less damage.
+In normal mode, you and your team have to work together to survive while fainting the enemies.
+If you faint, only the lifeguard can revive you. If you are the lifeguard and faint, your team cannot be revived anymore. This is why we gave the lifeguard a paddle board and made him OP.
+The game ends when an entire team has fainted. You can check the score/fainted by pressing F.
+In King of the Cube mode, the team who successfully stands on the cube for 100 seconds wins.
+Players respawn automatically after 5 seconds. It's recommended to use attack 5 to hit the player on the cube, as it actually deals more damage if the enemy is on the cube.
+The cube team's players should try and take the hit to have the person on the cube last the longest.

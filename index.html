@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>james's stuff</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="games.js" defer></script>
+</head>
+<body class="home-page" data-github-url="https://github.com/OrtheSnowJames">
+    <main class="catalog-page">
+        <h1 class="name-title">james's stuff</h1>
+        <nav class="catalog-navigation" aria-label="Sections">
+            <a href="#games">Games</a>
+            <a href="#archive">Archive</a>
+            <a href="#other-tools">Other Tools</a>
+        </nav>
+        <section class="games-section" id="games" data-catalog="games.json" aria-labelledby="games-title">
+            <div class="games-content">
+                <h2 id="games-title">Games (unarchived)</h2>
+                <p id="games-status" role="status">Loading games...</p>
+                <button class="catalog-retry" id="games-retry" type="button" hidden>Try again</button>
+                <div class="games-grid" id="games-grid"></div>
+                <noscript><p>Enable JavaScript to view the games.</p></noscript>
+            </div>
+        </section>
+        <section class="games-section" id="archive" data-catalog="archive.json" data-catalog-label="archived games" aria-labelledby="archive-title">
+            <div class="games-content">
+                <h2 id="archive-title">Archive</h2>
+                <p id="archive-status" role="status">Loading archived games...</p>
+                <button class="catalog-retry" id="archive-retry" type="button" hidden>Try again</button>
+                <div class="games-grid" id="archive-grid"></div>
+                <noscript><p>Enable JavaScript to view the archive.</p></noscript>
+            </div>
+        </section>
+        <section class="games-section" id="other-tools" data-catalog="other-tools.json" data-catalog-label="tools" data-catalog-layout="tools" aria-labelledby="tools-title">
+            <div class="games-content">
+                <h2 id="tools-title">Other Tools (nerdy coding libraries)</h2>
+                <p id="tools-status" role="status">Loading tools...</p>
+                <button class="catalog-retry" id="tools-retry" type="button" hidden>Try again</button>
+                <div class="games-grid" id="tools-grid"></div>
+                <noscript><p>Enable JavaScript to view the tools.</p></noscript>
+            </div>
+        </section>
+    </main>
+
+    <dialog class="game-dialog" id="download-dialog" aria-labelledby="download-title">
+        <div class="dialog-header">
+            <h2 id="download-title">Download</h2>
+            <form method="dialog">
+                <button class="dialog-close" aria-label="Close downloads" title="Close downloads">&times;</button>
+            </form>
+        </div>
+        <div class="buttons" id="download-options"></div>
+    </dialog>
+
+    <dialog class="game-dialog" id="play-dialog" aria-labelledby="play-title">
+        <div class="dialog-header">
+            <h2 id="play-title">Play</h2>
+            <form method="dialog">
+                <button class="dialog-close" aria-label="Close" title="Close">&times;</button>
+            </form>
+        </div>
+        <div class="buttons" id="play-options">
+            <a class="dialog-option" id="play-open">Open</a>
+            <button class="dialog-option" id="play-instructions" type="button">How to play</button>
+        </div>
+        <div class="instructions-text" id="instructions-text" role="region" aria-label="Game instructions" tabindex="0" hidden></div>
+    </dialog>
+
+    <footer class="site-footer">
+        <p>More projects on <a href="https://github.com/OrtheSnowJames">GitHub</a></p>
+    </footer>
+</body>
+</html>

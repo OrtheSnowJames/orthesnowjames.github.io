@@ -1,0 +1,34 @@
+{
+  "voyage": {
+    "description": "a sailing survival game",
+    "image": "games_data/le_voyage_macabre.png",
+    "gh_repo": "OrtheSnowJames/voyage",
+    "windows_download": "games_data/voyage-win64.zip",
+    "wasm": "games_data/voyage_web",
+    "how_to_play": "games_data/voyage_help.txt"
+  },
+  "flowstate": {
+    "description": "epic pool fights",
+    "image": "games_data/flowstate_intense_duel.png",
+    "gh_repo": "OrtheSnowJames/flowstate",
+    "windows_download": "games_data/flowstate_windows.zip",
+    "wasm": "",
+    "how_to_play": "games_data/flowstate_help.txt"
+  },
+  "robsim": {
+    "description": "rob the poorly officiated bank",
+    "image": "games_data/robsim_darkness.png",
+    "gh_repo": "OrtheSnowJames/robsim",
+    "windows_download": "",
+    "wasm": "games_data/robsim_web",
+    "how_to_play": "games_data/robsim_help.txt"
+  },
+  "grow letters/bananas": {
+    "description": "grow bananas and trade for apples with vocab",
+    "image": "games_data/growletters_inventory.png",
+    "gh_repo": "OrtheSnowJames/growletters",
+    "windows_download": "",
+    "wasm": "games_data/growletters_web",
+    "how_to_play": "games_data/growletters_help.txt"
+  }
+}

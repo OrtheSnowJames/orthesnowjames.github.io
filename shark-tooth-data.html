@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shark Tooth Data</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", "Comic Sans", "Times New Roman", serif;
+        background: #f7f2d5;
+        color: #222;
+        margin: 0;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 28px;
+        text-decoration: underline;
+        margin: 0 0 10px 0;
+      }
+      #page-input, #page-results {
+        border: 4px solid #3a3a3a;
+        padding: 12px;
+        background: #fff7aa;
+      }
+      textarea {
+        width: 98%;
+        background: #fff1f1;
+        border: 3px dashed #1a1a1a;
+        font-size: 16px;
+      }
+      button {
+        font-size: 18px;
+        padding: 6px 10px;
+        border: 2px solid #000;
+        background: #c7f0ff;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #ffd0d0;
+      }
+      pre {
+        background: #e9e9e9;
+        border: 2px dotted #444;
+        padding: 8px;
+        min-height: 120px;
+      }
+      label {
+        display: inline-block;
+        margin-right: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="page-input">
+      <h1>Paste Data</h1>
+      <form id="data-form">
+        <textarea id="data-input" rows="18" cols="80" placeholder="Paste unsorted data here"></textarea>
+        <div>
+          <button type="submit">Enter</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="page-results" style="display:none;">
+      <h1>Day Tools</h1>
+      <div>
+        <button id="btn-all-color">All Color</button>
+        <button id="btn-how-many-color">How Many Color</button>
+        <button id="btn-avg-all-soda">Average Weight per All Soda</button>
+        <button id="btn-avg-one-soda">Average Weight per Soda</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="btn-reask-day">reask day</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="btn-reask-data">reask data</button>
+      </div>
+
+      <pre id="output"></pre>
+
+      <div>
+        <label>
+          <input type="radio" name="scope" value="all" checked />
+          by all days
+        </label>
+        <label>
+          <input type="radio" name="scope" value="day" />
+          by day
+        </label>
+      </div>
+    </section>
+
+    <script>
+      function parseLine(line) {
+        const toothMatch = line.match(/Shark tooth\s*:?\s*(\d+)/i);
+        if (!toothMatch) return null;
+
+        const tooth = Number(toothMatch[1]);
+        const colonIdx = line.indexOf(":");
+        if (colonIdx === -1) return null;
+
+        const remainder = line.slice(colonIdx + 1).trim();
+        if (!remainder) return null;
+
+        const parts = remainder.split(",").map(p => p.trim()).filter(Boolean);
+        if (parts.length === 0) return null;
+
+        const color = parts[0].trim().toLowerCase();
+
+        let weight = null;
+        let weightIndex = -1;
+
+        const weightPartMatch = (part) => {
+          const exact = part.match(/^\s*([\d]+(?:[.,]\d+)?)\s*g?\s*$/i);
+          if (exact) return parseFloat(exact[1].replace(",", "."));
+          const embedded = part.match(/([\d]+(?:[.,]\d+)?)\s*g/i);
+          if (embedded) return parseFloat(embedded[1].replace(",", "."));
+          return null;
+        };
+
+        parts.forEach((part, idx) => {
+          if (weight !== null) return;
+          const candidate = weightPartMatch(part);
+          if (candidate !== null) {
+            weight = candidate;
+            weightIndex = idx;
+          }
+        });
+
+        let drink = "";
+        let drinkIndex = -1;
+        for (let i = parts.length - 1; i >= 0; i -= 1) {
+          const part = parts[i];
+          const embedded = part.match(/([\d]+(?:[.,]\d+)?)\s*g/i);
+          let cleaned = part;
+          if (embedded) cleaned = part.replace(embedded[0], "").trim();
+          if (cleaned && /[A-Za-z]/.test(cleaned)) {
+            drink = cleaned.toLowerCase();
+            drinkIndex = i;
+            break;
+          }
+        }
+
+        if (weight === null || !drink) return null;
+
+        const notesParts = [];
+        parts.forEach((part, idx) => {
+          if (idx === 0) return;
+          if (idx === weightIndex) return;
+          if (idx === drinkIndex) return;
+          notesParts.push(part);
+        });
+
+        return {
+          tooth,
+          color,
+          weight,
+          notes: notesParts.length ? notesParts.join(", ") : null,
+          drink
+        };
+      }
+
+      class Day {
+        constructor(lines) {
+          this.lines = lines;
+          this.colorCounts = undefined;
+          this.sodaWeightAvgs = undefined;
+        }
+
+        all_color() {
+          if (this.colorCounts) return this.colorCounts;
+
+          const result = new Map();
+          this.lines.forEach(line => {
+            const current = result.get(line.color) ?? 0;
+            result.set(line.color, current + 1);
+          });
+
+          this.colorCounts = result;
+          return result;
+        }
+
+        how_many_color(color) {
+          const result = this.all_color().get(color.toLowerCase());
+
+          if (typeof result !== "undefined") return result;
+          return 0;
+        }
+
+        average_weight_per_all_soda() {
+          if (this.sodaWeightAvgs) return this.sodaWeightAvgs;
+
+          const totals = new Map();
+          this.lines.forEach(line => {
+            const key = line.drink;
+            const current = totals.get(key) ?? { sum: 0, count: 0 };
+            current.sum += line.weight;
+            current.count += 1;
+            totals.set(key, current);
+          });
+
+          const avgs = new Map();
+          totals.forEach((val, key) => {
+            avgs.set(key, val.count === 0 ? 0 : val.sum / val.count);
+          });
+
+          this.sodaWeightAvgs = avgs;
+          return avgs;
+        }
+
+        average_weight_per_soda(drink) {
+          const result = this.average_weight_per_all_soda().get(drink.toLowerCase());
+
+          if (typeof result !== "undefined") return result;
+          return 0;
+        }
+      }
+
+      function parseAllDays(data) {
+        const result = new Map();
+        if (typeof data !== "string") return result;
+
+        let currentDay = null;
+        let currentLines = [];
+
+        const flush = () => {
+          if (currentDay === null) return;
+          result.set(currentDay, new Day(currentLines));
+          currentLines = [];
+        };
+
+        data.split("\n").forEach((rawLine) => {
+          const line = rawLine.trim();
+          if (!line) return;
+          const dayMatch = line.match(/^Day\s*:?\s*(\d+)/i);
+          if (dayMatch) {
+            flush();
+            currentDay = Number(dayMatch[1]);
+            return;
+          }
+
+          const lineDat = parseLine(line);
+          if (lineDat) currentLines.push(lineDat);
+        });
+
+        flush();
+        return result;
+      }
+
+      const form = document.getElementById("data-form");
+      const input = document.getElementById("data-input");
+      const output = document.getElementById("output");
+      const pageInput = document.getElementById("page-input");
+      const pageResults = document.getElementById("page-results");
+
+      let daysMap = new Map();
+      let allDays = null;
+      let selectedDay = null;
+
+      const setOutput = (lines) => {
+        output.textContent = lines.join("\n");
+      };
+
+      const getScope = () => {
+        const checked = document.querySelector("input[name='scope']:checked");
+        return checked ? checked.value : "all";
+      };
+
+      const getDayFromPrompt = () => {
+        const answer = prompt("Which day number?");
+        if (!answer) return null;
+
+        const num = Number(answer);
+        if (!Number.isFinite(num)) return null;
+
+        return num;
+      };
+
+      const getActiveDay = () => {
+        const scope = getScope();
+
+        if (scope === "all") return allDays;
+        if (selectedDay === null) selectedDay = getDayFromPrompt();
+        if (selectedDay === null) {
+          setOutput(["No day selected."]);
+          return null;
+        }
+
+        const day = daysMap.get(selectedDay);
+        if (!day) {
+          setOutput([`Day ${selectedDay} not found.`]);
+          return null;
+        }
+        return day;
+      };
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        daysMap = parseAllDays(input.value);
+        if (daysMap.size === 0) {
+          setOutput(["No days found."]);
+          return;
+        }
+
+        const allLines = [];
+        daysMap.forEach(day => allLines.push(...day.lines));
+        allDays = new Day(allLines);
+        selectedDay = null;
+
+        pageInput.style.display = "none";
+        pageResults.style.display = "block";
+        setOutput(["Ready."]);
+      });
+
+      document.getElementById("btn-all-color").addEventListener("click", () => {
+        const day = getActiveDay();
+        if (!day) return;
+
+        const entries = Array.from(day.all_color().entries());
+        if (!entries.length) return setOutput(["No colors found."]);
+
+        setOutput(entries.map(([color, count]) => `${color}: ${count}`));
+      });
+
+      document.getElementById("btn-how-many-color").addEventListener("click", () => {
+        const day = getActiveDay();
+        if (!day) return;
+
+        const color = prompt("Which color?");
+        if (!color) return setOutput(["No color selected."]);
+
+        const count = day.how_many_color(color);
+        setOutput([`${color.toLowerCase()}: ${count}`]);
+      });
+
+      document.getElementById("btn-avg-all-soda").addEventListener("click", () => {
+        const day = getActiveDay();
+        if (!day) return;
+
+        const entries = Array.from(day.average_weight_per_all_soda().entries());
+        if (!entries.length) return setOutput(["No soda data found."]);
+        setOutput(entries.map(([drink, avg]) => `${drink}: ${avg.toFixed(2)}g`));
+      });
+
+      document.getElementById("btn-avg-one-soda").addEventListener("click", () => {
+        const day = getActiveDay();
+        if (!day) return;
+
+        const drink = prompt("Which soda/drink?");
+        if (!drink) return setOutput(["No soda selected."]);
+
+        const avg = day.average_weight_per_soda(drink);
+        setOutput([`${drink.toLowerCase()}: ${avg.toFixed(2)}g`]);
+      });
+
+      document.getElementById("btn-reask-day").addEventListener("click", () => {
+        selectedDay = getDayFromPrompt();
+        if (selectedDay === null) return setOutput(["No day selected."]);
+
+        const day = daysMap.get(selectedDay);
+        if (!day) return setOutput([`Day ${selectedDay} not found.`]);
+
+        setOutput([`Day ${selectedDay} selected.`]);
+      });
+
+      document.getElementById("btn-reask-data").addEventListener("click", () => {
+        pageResults.style.display = "none";
+        pageInput.style.display = "block";
+        output.textContent = "";
+      });
+    </script>
+  </body>
+</html>

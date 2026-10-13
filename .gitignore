@@ -1,0 +1,6 @@
+.DS_Store
+.last_build_id
+.codex/
+.agents/
+.aws/
+node_modules/

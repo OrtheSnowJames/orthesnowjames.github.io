@@ -1,0 +1,342 @@
+{
+    "map1": {
+        "name": "OG Map",
+        "objects": [
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2",
+                "y": "canvasHeight / 2 - playerHeight * 2",
+                "width": "playerWidth * 4",
+                "height": "playerHeight * 4",
+                "color": "#4f4d40",
+                "collide": "outside" // must be outside
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 50", // go behind the flag {cube}{flag}
+                "y": "canvasHeight / 2 - 100",
+                "width": "50",
+                "height": "50",
+                "color": "rgba(255, 0, 0, 0.5)", // Semi-transparent red
+                "property": {
+                    "teamblock": "red" // Only red team can enter
+                }
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 + 100",
+                "y": "canvasHeight / 2 - 100",
+                "width": "50",
+                "height": "50",
+                "color": "rgba(0, 0, 255, 0.5)", // Semi-transparent blue
+                "property": {
+                    "teamblock": "blue" // Only blue team can enter
+                }
+            }
+        ],
+        "bg": "#4f4d4a",
+        "outbg": "#918777"
+    },
+    "map2": {
+        "name": "da factory",
+        "objects": [
+            {
+                "type": "img('mapassets/map2/conveyor.png')", // conveyor, to be placed on the top left of the map
+                "x": "40",
+                "y": "50",
+                "width": "img.width",
+                "height": "img.height",
+                "color": "#4f4d40",
+                "rotation": "0", // Changed from 90 degrees to 0 degrees to push upward
+                "property": {
+                    "dashpad": true   
+                }
+            },
+            // make some other conveyor belts
+            {
+                "type": "img('mapassets/map2/conveyor.png')", // conveyor, to be placed on the top left of the map
+                "x": "700",
+                "y": "400",
+                "width": "img.width",
+                "height": "img.height",
+                "color": "#4f4d40",
+                "rotation": "0", // Changed from 90 degrees to 0 degrees to push upward
+                "property": {
+                    "dashpad": true   
+                }
+            },
+            // middle cube but box (mapassets/map2/ironbox.png)
+            {
+                "type": "img('mapassets/map2/ironbox.png')",
+                "x": "canvasWidth / 2",
+                "y": "canvasHeight / 2",
+                "width": "img.width",
+                "height": "img.height",
+                "collide": "outside"
+            },
+            // Red team safe zone
+            {
+                "type": "rect",
+                "x": "5",
+                "y": "5",
+                "width": "50",
+                "height": "50",
+                "color": "rgba(255, 0, 0, 0.5)",
+                "property": {
+                    "teamblock": "red"
+                }
+            },
+            // Other red team safe zone
+            {
+                "type": "rect",
+                "x": "5",
+                "y": "canvasHeight - 55",
+                "width": "50",
+                "height": "50",
+                "color": "rgba(255, 0, 0, 0.5)",
+                "property": {
+                    "teamblock": "red"
+                }
+            },
+            
+            // Blue team safe zone
+            {
+                "type": "rect",
+                "x": "1000 - 55",
+                "y": "canvasHeight - 55",
+                "width": "50",
+                "height": "50",
+                "color": "rgba(0, 0, 255, 0.5)",
+                "property": {
+                    "teamblock": "blue"
+                }
+            },
+            // Other blue team safe zone
+            {
+                "type": "rect",
+                "x": "1000 - 55",
+                "y": "5",
+                "width": "50",
+                "height": "50",
+                "color": "rgba(0, 0, 255, 0.5)",
+                "property": {
+                    "teamblock": "blue"
+                }
+            }
+        ]
+    },
+    "map3": {
+        "name": "crossfire",
+        "objects": [
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 70",
+                "y": "canvasHeight / 2 - 70",
+                "width": "140",
+                "height": "140",
+                "color": "#3f3f3f",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 175",
+                "y": "canvasHeight / 2 - 15",
+                "width": "350",
+                "height": "30",
+                "color": "#5a5a5a",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 15",
+                "y": "canvasHeight / 2 - 140",
+                "width": "30",
+                "height": "280",
+                "color": "#5a5a5a",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "130",
+                "y": "canvasHeight / 2 - 35",
+                "width": "70",
+                "height": "70",
+                "color": "rgba(255, 80, 80, 0.35)",
+                "property": {
+                    "teamblock": "red"
+                }
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 200",
+                "y": "canvasHeight / 2 - 35",
+                "width": "70",
+                "height": "70",
+                "color": "rgba(80, 120, 255, 0.35)",
+                "property": {
+                    "teamblock": "blue"
+                }
+            },
+            {
+                "type": "rect",
+                "x": "280",
+                "y": "85",
+                "width": "80",
+                "height": "35",
+                "color": "rgba(255, 210, 80, 0.45)",
+                "property": {
+                    "dashpad": true
+                }
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 360",
+                "y": "canvasHeight - 120",
+                "width": "80",
+                "height": "35",
+                "color": "rgba(255, 210, 80, 0.45)",
+                "property": {
+                    "dashpad": true
+                }
+            }
+        ],
+        "bg": "#2e3138",
+        "outbg": "#181a1f"
+    },
+    "map4": {
+        "name": "citadel complex (intriguing!)",
+        "objects": [
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 95",
+                "y": "canvasHeight / 2 - 95",
+                "width": "190",
+                "height": "190",
+                "color": "#2B2F3A",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 260",
+                "y": "canvasHeight / 2 - 18",
+                "width": "520",
+                "height": "36",
+                "color": "#4A5263",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth / 2 - 18",
+                "y": "canvasHeight / 2 - 145",
+                "width": "36",
+                "height": "290",
+                "color": "#4A5263",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "185",
+                "y": "85",
+                "width": "120",
+                "height": "28",
+                "color": "#5D667A",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "185",
+                "y": "canvasHeight - 113",
+                "width": "120",
+                "height": "28",
+                "color": "#5D667A",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 305",
+                "y": "85",
+                "width": "120",
+                "height": "28",
+                "color": "#5D667A",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 305",
+                "y": "canvasHeight - 113",
+                "width": "120",
+                "height": "28",
+                "color": "#5D667A",
+                "collide": "outside"
+            },
+            {
+                "type": "rect",
+                "x": "95",
+                "y": "canvasHeight / 2 + 30",
+                "width": "70",
+                "height": "60",
+                "color": "rgba(255, 95, 95, 0.35)",
+                "property": {
+                    "teamblock": "red"
+                }
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 165",
+                "y": "canvasHeight / 2 + 30",
+                "width": "70",
+                "height": "60",
+                "color": "rgba(95, 125, 255, 0.35)",
+                "property": {
+                    "teamblock": "blue"
+                }
+            },
+            {
+                "type": "rect",
+                "x": "130",
+                "y": "130",
+                "width": "56",
+                "height": "28",
+                "color": "rgba(255, 210, 90, 0.5)",
+                "property": {
+                    "dashpad": true
+                }
+            },
+            {
+                "type": "rect",
+                "x": "130",
+                "y": "canvasHeight - 158",
+                "width": "56",
+                "height": "28",
+                "color": "rgba(255, 210, 90, 0.5)",
+                "property": {
+                    "dashpad": true
+                }
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 186",
+                "y": "130",
+                "width": "56",
+                "height": "28",
+                "color": "rgba(255, 210, 90, 0.5)",
+                "property": {
+                    "dashpad": true
+                }
+            },
+            {
+                "type": "rect",
+                "x": "canvasWidth - 186",
+                "y": "canvasHeight - 158",
+                "width": "56",
+                "height": "28",
+                "color": "rgba(255, 210, 90, 0.5)",
+                "property": {
+                    "dashpad": true
+                }
+            }
+        ],
+        "bg": "#242A35",
+        "outbg": "#10141C"
+    }
+}

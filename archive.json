@@ -1,0 +1,27 @@
+{
+  "multiplayer game": {
+    "description": "A multiplayer exploration game",
+    "image": "archive_data/Screenshot 2026-10-11 at 7.17.51\u202fPM.png",
+    "gh_repo": "OrtheSnowJames/multiplayer-game",
+    "windows_download": "",
+    "wasm": "archive_data/multiplayer_game_web/",
+    "how_to_play": "archive_data/multiplayer_game_help.txt"
+  },
+  "dark swing": {
+    "description": "Climb in darkness... or not",
+    "image": "archive_data/darkswing_platform.png",
+    "gh_repo": "OrtheSnowJames/darkswing",
+    "windows_download": "archive_data/darkswing.zip",
+    "wasm": "archive_data/darkswing_web",
+    "how_to_play": "archive_data/darkswing_help.txt"
+  },
+  "capture flag io": {
+    "description": "capture the flag without jails",
+    "image": "archive_data/capture-flag-coverart.png",
+    "image_fit": "contain",
+    "gh_repo": "OrtheSnowJames/capture-flag-io",
+    "windows_download": "",
+    "wasm": "archive_data/capture-flag-io-web",
+    "how_to_play": "archive_data/capture-flag-io-help.txt"
+  }
+}

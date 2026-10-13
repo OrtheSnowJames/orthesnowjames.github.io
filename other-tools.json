@@ -1,0 +1,22 @@
+{
+  "raylib interactive rust": {
+    "description": "Interactive UI components for raylib rust",
+    "image": "other_tools_data/raylib_interactive.png",
+    "gh_repo": "OrtheSnowJames/rayinteract"
+  },
+  "btd6 death predictor": {
+    "description": "predicts when current btd6 army will perish",
+    "image": "other_tools_data/death_predictor_predicting.png",
+    "gh_repo": "OrtheSnowJames/death_predictor"
+  },
+  "naturebindgen": {
+    "description": "a binding generator from c -> nature language (refer to nature-lang.org)",
+    "image": "other_tools_data/naturebindgen_process.png",
+    "gh_repo": "OrtheSnowJames/naturebindgen"
+  },
+  "godot_path_changer": {
+    "description": "automatically changes paths to moved/removed nodes in gdscripts",
+    "image": "other_tools_data/gd_path_changing.png",
+    "gh_repo": "OrtheSnowJames/path_changer_godot"
+  }
+}
