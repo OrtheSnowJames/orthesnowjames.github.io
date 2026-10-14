@@ -32,6 +32,16 @@ export const audio = {
     }
 };
 
+export function unlockBGM() {
+    Object.values(audio.maps).forEach(({ bgm }) => {
+        bgm.muted = true;
+        bgm.play().then(() => {
+            bgm.pause();
+            bgm.currentTime = 0;
+        }).catch(error => console.warn("Couldn't initialize game music:", error));
+    });
+}
+
 let fadeRequestId = null;
 let musicTracks = [];
 let musicCycleIndex = -1;

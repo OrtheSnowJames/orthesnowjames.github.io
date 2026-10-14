@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 import { otherCtx, contextEngine, Commands, Scene, OCtxButton, OCtxTextField } from "./context-engine.mjs";
 import { gameScene } from "./game.js";
+import { unlockBGM } from "./game/assets.js";
 
 const assetsBase = new URL("../assets/", import.meta.url);
 
@@ -39,8 +40,13 @@ coverart.src = new URL("coverart.png", assetsBase).href;
 
 let titleMusic = new Audio(new URL("music/evansong2.wav", assetsBase).href);
 titleMusic.loop = true;
-if (musicPlay) {
-  titleMusic.play();
+
+function playTitleMusic() {
+    titleMusic.play().catch(error => {
+        musicPlay = false;
+        titleMusic.muted = true;
+        console.warn("Title music couldn't play:", error);
+    });
 }
 
 function namefieldPlaceholderError(error, namefield) {
@@ -153,6 +159,7 @@ class menuScene extends Scene {
         if (this.musicButton.isClicked(commands)) {
             musicPlay = !musicPlay;
             titleMusic.muted = !musicPlay;
+            if (musicPlay) playTitleMusic();
         }
 
         if (this.privateJoinButton.isClicked(commands)) {
@@ -407,10 +414,16 @@ class privateJoinScene extends Scene {
     }
 }
 
-let menuSceneObj = new menuScene();
-let gameSceneObj = new gameScene();
-let privateJoinSceneObj = new privateJoinScene();
-
-let game = [menuSceneObj, gameSceneObj, privateJoinSceneObj];
-
-engine = contextEngine(game, 0, CANVAS_WIDTH, CANVAS_HEIGHT, true); // call the engine
+export function startGame() {
+    if (engine) return engine;
+    // Start each audio element inside the button's user gesture, before any async work.
+    musicPlay = true;
+    titleMusic.muted = false;
+    playTitleMusic();
+    unlockBGM();
+    const game = [new menuScene(), new gameScene(), new privateJoinScene()];
+    engine = contextEngine(game, 0, CANVAS_WIDTH, CANVAS_HEIGHT, true);
+    engine.canvas.tabIndex = 0;
+    engine.canvas.focus();
+    return engine;
+}
