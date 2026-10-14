@@ -25,8 +25,8 @@ fetch(new URL("loadingScreenTips.json", assetsBase))
 let randomTip = "";
 
 setTimeout(() => {
-  randomTip = tips.length > 0 ? 
-  tips[Math.floor(Math.random() * tips.length)] : 
+  randomTip = tips.length > 0 ?
+  tips[Math.floor(Math.random() * tips.length)] :
   "Pro tip: Wait for tips to load!";
 }, 300);
 const dwidth = window.innerWidth * 0.90;  // 100% - 5% left - 5% right
@@ -140,14 +140,14 @@ class menuScene extends Scene {
 
     update(dt, commands) {
         if (switched || this.#loading) return;
-  
+
         this.startButton.update(commands);
         this.nameField.update(commands, dt);
         this.backButton.update(commands);
         this.musicButton.update(commands);
         this.privateButton.update(commands);
         this.privateJoinButton.update(commands);
-        
+
         // Update title animation using deltaTime
         this.titleAnimationTime += dt;
         // Use sine wave to oscillate between 40 and 50, with proper time scaling
@@ -166,24 +166,24 @@ class menuScene extends Scene {
         if (this.privateJoinButton.isClicked(commands)) {
             commands.switchScene(2);
         }
-  
+
         let startButtonClicked = this.startButton.isClicked(commands);
         let privateButtonClicked = this.privateButton.isClicked(commands);
 
         if (!startButtonClicked && !privateButtonClicked) return;
-  
+
         const entered = this.nameField.getText().trim();
         if (!entered) {
             namefieldPlaceholderError("Please enter a name", this.nameField);
             return;
         }
-        
+
         // Check for spaces in name
         if (entered.includes(' ')) {
             namefieldPlaceholderError("Names cannot contain spaces", this.nameField);
             return;
         }
-  
+
         this.#loading = true;
         if (startButtonClicked) {
             console.log("not private");
@@ -191,18 +191,18 @@ class menuScene extends Scene {
                 try {
                     const { path } = await fetch(`${SERVER_URL}/lobby`).then(r => r.json());
                     lobbyPath = path;
-        
+
                     const response = await fetch(
                         `${SERVER_URL}/check-name?name=${encodeURIComponent(entered)}&lobby=${lobbyPath}`
                     ).then(r => r.json());
-        
+
                     if (!response.available) {
                         const errorMessage = response.reason || "Name already taken";
                         namefieldPlaceholderError(errorMessage, this.nameField);
                         this.#loading = false;
                         return;
                     }
-        
+
                     naem = entered;
                     this.nameField.deactivate();
                     commands.switchScene(1);
@@ -252,7 +252,7 @@ class menuScene extends Scene {
         ctx.setZoom(1);
         ctx.clearBackground('black');
         ctx.drawImage(coverart, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        
+
         // Draw title with animated size
         ctx.setTextAlign("center");
         ctx.drawText(
@@ -284,7 +284,7 @@ class menuScene extends Scene {
         this.musicButton.draw(ctx);
         this.privateButton.draw(ctx);
         this.privateJoinButton.draw(ctx);
-        
+
         // draw a check/x near the button
         const musicIndicatorFontSize = CANVAS_HEIGHT * this.musicIndicatorFontSizeRatio;
         ctx.drawText(
@@ -362,7 +362,8 @@ class privateJoinScene extends Scene {
         this.lobbyPathField.update(commands, dt);
         this.startButton.update(commands);
         if (this.backButton.isClicked(commands)) {
-            commands.switchScene(0);
+            // commands.switchScene(0);
+            window.location.href = "/";
         }
 
         if (this.startButton.isClicked(commands)) {
@@ -371,17 +372,17 @@ class privateJoinScene extends Scene {
                 try {
                     const path = await this.lobbyPathField.getText();
                     lobbyPath = path;
-        
+
                     const response = await fetch(
                         `${SERVER_URL}/check-name?name=${encodeURIComponent(this.nameField.text)}&lobby=${lobbyPath}`
                     ).then(r => r.json());
-        
+
                     if (!response.available) {
                         const errorMessage = response.reason || "Name already taken";
                         namefieldPlaceholderError(errorMessage, this.nameField);
                         return;
                     }
-        
+
                     naem = this.nameField.text;
                     this.nameField.deactivate();
                     commands.switchScene(1);
@@ -394,13 +395,13 @@ class privateJoinScene extends Scene {
             })();
         }
     }
-    
+
     draw(ctx) {
         ctx.setCamera(0, 0);
         ctx.setZoom(1);
         ctx.clearBackground('black');
         ctx.drawImage(coverart, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        
+
         const titleFontSize = CANVAS_HEIGHT * this.titleFontSizeRatio;
         ctx.drawText(
             CANVAS_WIDTH / 2 - CANVAS_WIDTH * 0.166,
@@ -409,7 +410,7 @@ class privateJoinScene extends Scene {
             "white",
             titleFontSize
         );
-        
+
         this.backButton.draw(ctx);
         this.nameField.draw(ctx);
         this.lobbyPathField.draw(ctx);

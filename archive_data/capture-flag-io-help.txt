@@ -14,5 +14,16 @@ FIGHTING
 - Run into players on the other team to knock them out.
 - Use your dash to move quickly during a chase or escape.
 
+PROJECTILES
+- Touch grenades to pick them up, and click to fire them.
+- Smoke Grenades are colored grey. When fired, they explode into a grey circle of smoke.
+- Grenades are colored green, and can knock players in a small radius out.
+
+DIFFERENT COLORED THINGS
+- Red rectangles are red team safe zones. Only red can go in.
+- Vice versa for blue rectangles.
+- Orange rectangles are "conveyor belts." These give you dash.
+- Other colored rectangles are most likely walls.
+
 ABOUT THE GAME
 A 2D take on Rec Room's paintball capture-the-flag mode. Best played with a crowd!

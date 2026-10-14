@@ -13,7 +13,7 @@ BUILD YOUR VOYAGE
 - Catch fish, then sell them for coins.
 - Upgrade your rod, sword, and speed.
 - Hire crew. Use the Crew button to feed them before their hunger runs out.
-- Buy port-a-shops as you go: one per depth level.
+- Buy port-a-shops as you go: one per depth level. (otherwise ships will fly at you)
 
 STAY SAFE
 - Touching an enemy ship starts a fight automatically.
