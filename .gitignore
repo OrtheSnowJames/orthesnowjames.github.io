@@ -4,3 +4,4 @@
 .agents/
 .aws/
 node_modules/
+/games_data/flowstate_macos.dmg
