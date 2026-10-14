@@ -8,6 +8,7 @@
     const joinError = document.getElementById("chat-join-error");
     const connection = document.getElementById("chat-connection");
     const messages = document.getElementById("chat-messages");
+    const presence = document.getElementById("chat-presence");
     const messageInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("chat-send");
     let socket = null;
@@ -31,6 +32,7 @@
         sendButton.disabled = !value;
         connection.textContent = text;
         connection.dataset.state = value ? "connected" : "connecting";
+        if (!value) presence.textContent = "Who's here: Reconnecting...";
     }
 
     function leaveChat(error = "") {
@@ -100,6 +102,10 @@
             messages.append(message);
             if (messages.childElementCount > 16) messages.firstElementChild.remove();
             messages.scrollTop = messages.scrollHeight;
+        });
+        socket.on("chatPresence", names => {
+            if (!joined || !Array.isArray(names) || !names.every(name => typeof name === "string")) return;
+            presence.textContent = `Who's here: ${names.join(", ") || "Nobody yet"}`;
         });
         return socket;
     }

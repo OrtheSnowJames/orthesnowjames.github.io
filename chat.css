@@ -48,6 +48,16 @@
 #chat-messages p { margin: 12px 0; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
 #chat-messages strong { color: #9d315a; }
 .chat-form { display: flex; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid #d9bfce; }
+.chat-presence {
+    flex: 0 0 auto;
+    max-height: 90px;
+    overflow-y: auto;
+    margin: 12px 0 0;
+    color: #735465;
+    font-size: 12px;
+    line-height: 18px;
+    overflow-wrap: anywhere;
+}
 
 .chat-icon-button {
     display: grid;
