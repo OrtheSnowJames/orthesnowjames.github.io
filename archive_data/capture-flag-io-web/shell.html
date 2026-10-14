@@ -1,91 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="assets/redflag.png">
-    <title>capture-flag.io</title>
-    <style>
-        body {
-            background-image: url("assets/blurcover.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-color: #17191d;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100svh;
-            font-family: Arial, sans-serif;
-        }
-
-        #start-screen {
-            width: min(420px, calc(100% - 48px));
-            text-align: center;
-            color: white;
-        }
-
-        #start-screen h1 {
-            margin: 0 0 28px;
-            font-size: 32px;
-            overflow-wrap: anywhere;
-            text-shadow: 0 2px 8px black;
-        }
-
-        #start-button {
-            min-width: 180px;
-            min-height: 56px;
-            padding: 12px 24px;
-            border: 2px solid #ffae92;
-            border-radius: 5px;
-            background: #b9340c;
-            color: white;
-            font: inherit;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        #start-button:hover { background: #922a0a; }
-        #start-button:focus-visible { outline: 3px solid white; outline-offset: 5px; }
-        #start-button:disabled { opacity: 0.7; cursor: wait; }
-        #start-error { min-height: 20px; font-size: 14px; line-height: 20px; }
-        
-        canvas {
-            box-shadow: 0 0 100px 20px rgba(255, 255, 255, 0.7);
-            border-radius: 8px;
-            position: relative;
-            z-index: 10;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Capture Flag IO</title>
+    <link rel="icon" href="../../favicon.svg">
+    <link rel="stylesheet" href="../../game-guide.css">
+    <script src="../../game-guide.js" defer></script>
 </head>
 <body>
-    <div id="start-screen">
-        <h1>capture-flag.io</h1>
-        <button id="start-button" type="button" disabled>Loading...</button>
-        <p id="start-error" role="status"></p>
-        <noscript>JavaScript is required to play.</noscript>
-    </div>
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <script type="module">
-        import { startGame } from "./script/script.js";
-
-        const startScreen = document.getElementById("start-screen");
-        const startButton = document.getElementById("start-button");
-        startButton.disabled = false;
-        startButton.textContent = "Start Game";
-        startButton.addEventListener("click", () => {
-            startButton.disabled = true;
-            try {
-                startGame();
-                startScreen.remove();
-            } catch (error) {
-                console.error("Couldn't start the game:", error);
-                document.getElementById("start-error").textContent = "Couldn't start the game. Please try again.";
-                startButton.disabled = false;
-            }
-        });
-    </script>
+    <main>
+        <iframe class="game-frame" src="game-runtime.html" title="Capture Flag IO" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <section class="game-guide" aria-labelledby="guide-title" data-guide="../capture-flag-io-help.txt">
+            <h1 id="guide-title">How to play Capture Flag IO</h1>
+            <p class="guide-status" role="status">Loading guide...</p>
+            <div class="guide-content"></div>
+            <a class="guide-source" href="../capture-flag-io-help.txt">Open text guide</a>
+        </section>
+    </main>
 </body>
 </html>

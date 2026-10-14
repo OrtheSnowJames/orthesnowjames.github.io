@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <title>voyage :: warped shell</title>
+    <script type="text/javascript">
+      // Phones and tablets get a full-screen, non-scrolling page and the on-screen controls.
+      // Add ?mobile=1 to the address to force it (or ?mobile=0 to turn it off) when testing.
+      var IS_MOBILE = (function() {
+        var forced = /[?&]mobile=([01])/.exec(window.location.search);
+        if (forced) return forced[1] === "1";
+        var ua = navigator.userAgent || "";
+        if (/Android|iPhone|iPad|iPod|Mobile|Silk/i.test(ua)) return true;
+        // iPadOS reports itself as a Mac, but a Mac has no touch points
+        return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+      })();
+      if (IS_MOBILE) document.documentElement.classList.add("mobile");
+    </script>
+    <style>
+      :root {
+        --ink: #ede8d8;
+        --foam: #838456;
+        --acid: #a8b06a;
+        --hot: #5f4f79;
+        --cold: #6f7a57;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        color: var(--ink);
+        font-family: "Courier New", Courier, monospace;
+        background:
+          radial-gradient(circle at 20% 10%, rgba(111, 122, 87, 0.22), transparent 38%),
+          radial-gradient(circle at 80% 20%, rgba(95, 79, 121, 0.20), transparent 40%),
+          linear-gradient(130deg, #3b3654 0%, #585868 45%, #838456 100%);
+      }
+
+      .shell {
+        width: min(1100px, 96vw);
+        margin: 10px auto;
+        padding: 12px;
+        border: 3px solid rgba(237, 232, 216, 0.28);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 3px rgba(237, 232, 216, 0.18) inset;
+      }
+
+      .masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .masthead h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+      }
+
+      .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 2px dashed rgba(237, 232, 216, 0.45);
+        background: rgba(255, 255, 255, 0.14);
+        font-size: 12px;
+      }
+
+      .stage {
+        margin-top: 10px;
+        position: relative;
+        width: min(96vw, 1100px);
+        height: min(76vh, 860px);
+        min-height: 360px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 14px;
+        background:
+          repeating-linear-gradient(
+            -45deg,
+            rgba(237, 232, 216, 0.03) 0 10px,
+            rgba(237, 232, 216, 0.06) 10px 20px
+          );
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        border: 2px solid rgba(237, 232, 216, 0.26);
+        border-radius: 8px;
+      }
+
+      #loadingCanvas {
+        filter: saturate(1.08) contrast(0.96);
+      }
+
+      #canvas {
+        padding-right: 0;
+        border: 2px solid rgba(237, 232, 216, 0.3);
+        visibility: hidden;
+      }
+
+      #errorLog {
+        display: none;
+        width: min(96vw, 1100px);
+        margin: 10px auto 0 auto;
+        border-radius: 8px;
+        text-align: left;
+        white-space: pre-wrap;
+        padding: 10px;
+        background: rgba(20, 20, 25, 0.92);
+        color: #ff8f95;
+        border: 2px solid rgba(168, 176, 106, 0.45);
+      }
+
+      .controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .controls button {
+        cursor: pointer;
+        border: 2px solid rgba(237, 232, 216, 0.36);
+        border-radius: 999px;
+        padding: 6px 12px;
+        background: linear-gradient(90deg, var(--acid), var(--cold));
+        color: #1a1a16;
+        font-weight: bold;
+      }
+
+      .help-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 50;
+        padding: 20px;
+      }
+
+      .help-card {
+        width: min(680px, 94vw);
+        max-height: 82vh;
+        overflow-y: auto;
+        border-radius: 14px;
+        border: 2px solid rgba(237, 232, 216, 0.36);
+        background: linear-gradient(145deg, #3b3654 0%, #4b4960 45%, #65684f 100%);
+        color: #f5f0e2;
+        padding: 16px 18px;
+      }
+
+      .help-card h2 {
+        margin: 0 0 10px 0;
+      }
+
+      .help-card h3 {
+        margin: 14px 0 6px 0;
+      }
+
+      .help-card p {
+        margin: 0 0 8px 0;
+        line-height: 1.45;
+      }
+
+      .help-card ul {
+        margin: 0 0 10px 16px;
+      }
+
+      .help-actions {
+        margin-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .help-actions button {
+        cursor: pointer;
+        border: 2px solid rgba(237, 232, 216, 0.36);
+        border-radius: 999px;
+        padding: 6px 12px;
+        background: linear-gradient(90deg, var(--acid), var(--cold));
+        color: #1a1a16;
+        font-weight: bold;
+      }
+
+      .hint {
+        margin-top: 8px;
+        font-size: 12px;
+        opacity: 0.8;
+      }
+
+      /* mobile: the game is the whole page, and nothing on the page can scroll, zoom or be selected */
+      html.mobile, html.mobile body {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
+        overscroll-behavior: none;
+        touch-action: none;
+        background: #000;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html.mobile .shell {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: #000;
+        box-shadow: none;
+      }
+
+      html.mobile .masthead,
+      html.mobile .controls,
+      html.mobile .hint {
+        display: none;
+      }
+
+      html.mobile .stage {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        margin: 0;
+        border-radius: 0;
+      }
+
+      /* the plain #canvas rule (border, specificity) would win over "html.mobile canvas": the 2px grey frame
+         it draws eats into the canvas on every side and shifts where touches land */
+      html.mobile canvas,
+      html.mobile #canvas,
+      html.mobile #loadingCanvas {
+        border: 0;
+        border-radius: 0;
+        outline: 0;
+        touch-action: none;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+      }
+
+      html.mobile #errorLog {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        max-height: 40%;
+        overflow: auto;
+        margin: 0;
+        z-index: 40;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="masthead">
+        <h1>voyage</h1>
+        <div class="badge">weird mode / stable runtime</div>
+      </div>
+      <div class="stage">
+        <canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>
+        <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+        <pre id="errorLog"></pre>
+      </div>
+      <div id="howToOverlay" class="help-overlay" aria-hidden="true">
+        <div class="help-card" role="dialog" aria-modal="true" aria-labelledby="howToTitle">
+          <h2 id="howToTitle">How To Play Voyage</h2>
+
+          <h3>Core Mechs</h3>
+          <p>Fish to earn coins, buy upgrades, fight ships, and feed your crew while you push deeper.</p>
+
+          <h3>Basic Controling</h3>
+          <ul>
+            <li>Move your boat with WASD or arrow keys</li>
+            <li>Press F to fish when sailing (you can't fish near shops!)</li>
+            <li>To save, go to a shop and press the save & return button</li>
+            <li>To feed your crew, click on the crew button in the bottom right</li>
+            <li>Near docks (brown squares) and shopkeepers, press F to dock, board, or trade</li>
+            <li>On mobile, use the on-screen controls</li>
+          </ul>
+
+          <h3>Crew Rules</h3>
+          <ul>
+            <li>Crew hunger drops over time</li>
+            <li>Feed your crew from fish inventory before hunger hits zero</li>
+            <li>If too many crew are brought to easy fights, carelessness can cause great losses</li>
+          </ul>
+
+          <h3>Progression Tips</h3>
+          <ul>
+            <li>Upgrade rod first for easier fishing</li>
+            <li>Upgrade sword before big fights to reduce losses</li>
+            <li>Use shops to convert fish into coins</li>
+            <li>Beware! If you get defeated in battle, your save gets wiped as you pass away.</li>
+          </ul>
+
+          <div class="help-actions">
+            <button type="button" onclick="closeHowTo();">Close</button>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button onclick="openHowTo();">How To Play</button>
+        <button onclick="goFullScreen();">Go Fullscreen</button>
+        <button onclick="redirectToWaffleDogz();">waffledogz.us</button>
+      </div>
+      <div class="hint">Hint: hard refresh if the screen is blank</div>
+    </div>
+
+    <script type="text/javascript">
+      function goFullScreen() {
+        var canvas = document.getElementById("canvas");
+        if (canvas.requestFullScreen) canvas.requestFullScreen();
+        else if (canvas.webkitRequestFullScreen) canvas.webkitRequestFullScreen();
+        else if (canvas.mozRequestFullScreen) canvas.mozRequestFullScreen();
+      }
+
+      function openHowTo() {
+        var overlay = document.getElementById("howToOverlay");
+        overlay.style.display = "flex";
+        overlay.setAttribute("aria-hidden", "false");
+      }
+
+      function closeHowTo() {
+        var overlay = document.getElementById("howToOverlay");
+        overlay.style.display = "none";
+        overlay.setAttribute("aria-hidden", "true");
+      }
+
+      function redirectToWaffleDogz() {
+        window.location.href = "http://waffledogz.us";
+      }
+
+      // Types into the game the way a keyboard would: SDL (inside love.js) listens to key events on the window.
+      function sendKey(type, key, code, keyCode) {
+        window.dispatchEvent(new KeyboardEvent(type, {
+          key: key, code: code, keyCode: keyCode, which: keyCode, charCode: type === "keypress" ? key.charCodeAt(0) : 0,
+          bubbles: true, cancelable: true
+        }));
+      }
+
+      function pressBackspace() {
+        sendKey("keydown", "Backspace", "Backspace", 8);
+        sendKey("keyup", "Backspace", "Backspace", 8);
+      }
+
+      function typeCharacter(ch) {
+        var upper = ch.toUpperCase();
+        var code = /[a-z]/i.test(ch) ? "Key" + upper : (/[0-9]/.test(ch) ? "Digit" + ch : "");
+        var keyCode = ch.length === 1 && code ? upper.charCodeAt(0) : 0;
+        sendKey("keydown", ch, code, keyCode);
+        sendKey("keypress", ch, code, keyCode);
+        sendKey("keyup", ch, code, keyCode);
+      }
+
+      // replaces the text in the game's selected text box with what the player types into a native prompt.
+      // The game's text box takes one character per frame, so the key presses are spaced out.
+      function askForText(current) {
+        var typed = window.prompt("Enter your ship's name:", current);
+        if (typed === null) return;
+        var actions = [];
+        for (var i = 0; i < current.length + 4; i++) actions.push(pressBackspace);
+        Array.from(typed).slice(0, 24).forEach(function(ch) {
+          actions.push(function() { typeCharacter(ch); });
+        });
+        var step = 0;
+        (function next() {
+          if (step >= actions.length) return;
+          actions[step++]();
+          setTimeout(next, 60);
+        })();
+      }
+
+      (function installSameTabQuitRedirect() {
+        var originalWindowOpen = window.open;
+        window.open = function(url) {
+          var targetUrl = String(url || "");
+          // the game asking for text (see platform.request_text_input): a phone has no keyboard for a canvas
+          if (targetUrl.indexOf("voyage://text/") === 0) {
+            askForText(decodeURIComponent(targetUrl.slice("voyage://text/".length)));
+            return window;
+          }
+          if (targetUrl === "http://waffledogz.us" || targetUrl === "https://waffledogz.us") {
+            redirectToWaffleDogz();
+            return window;
+          }
+          if (typeof originalWindowOpen === "function") {
+            return originalWindowOpen.apply(window, arguments);
+          }
+          return null;
+        };
+      })();
+
+      function FullScreenHook() {
+        var canvas = document.getElementById("canvas");
+        var stage = document.querySelector(".stage");
+        var inFullscreen = !!document.fullscreenElement;
+        var w = inFullscreen ? window.innerWidth : Math.max(1, Math.floor(stage.clientWidth));
+        var h = inFullscreen ? window.innerHeight : Math.max(1, Math.floor(stage.clientHeight));
+        canvas.width = w;
+        canvas.height = h;
+        var loadingCanvas = document.getElementById("loadingCanvas");
+        loadingCanvas.width = w;
+        loadingCanvas.height = h;
+      }
+
+      var loadingContext = document.getElementById("loadingCanvas").getContext("2d");
+      function drawLoadingText(text) {
+        var canvas = loadingContext.canvas;
+        loadingContext.fillStyle = "rgb(59, 54, 84)";
+        loadingContext.fillRect(0, 0, canvas.width, canvas.height);
+        loadingContext.font = "2em arial";
+        loadingContext.textAlign = "center";
+        loadingContext.fillStyle = "rgb(232, 227, 214)";
+        loadingContext.fillText(text, canvas.width / 2, canvas.height / 2);
+        loadingContext.fillText("Powered By Emscripten.", canvas.width / 2, canvas.height / 4);
+        loadingContext.fillText("Powered By LÖVE.", canvas.width / 2, (canvas.height / 4) * 3);
+      }
+
+      window.onload = function() { window.focus(); };
+      window.onclick = function() { window.focus(); };
+      window.addEventListener("resize", FullScreenHook);
+      document.addEventListener("fullscreenchange", FullScreenHook);
+      // turning the phone: browsers report the new size a moment late
+      window.addEventListener("orientationchange", function() {
+        FullScreenHook();
+        setTimeout(FullScreenHook, 150);
+        setTimeout(FullScreenHook, 500);
+      });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", FullScreenHook);
+      }
+
+      if (IS_MOBILE) {
+        // the page must never scroll, bounce, pull-to-refresh or zoom while you play
+        document.addEventListener("touchmove", function(e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("touchstart", function(e) {
+          if (e.touches && e.touches.length > 1) e.preventDefault(); // two-finger pinch
+        }, { passive: false });
+        ["gesturestart", "gesturechange", "gestureend"].forEach(function(name) {
+          document.addEventListener(name, function(e) { e.preventDefault(); });
+        });
+        document.addEventListener("contextmenu", function(e) { e.preventDefault(); });
+        window.addEventListener("scroll", function() { window.scrollTo(0, 0); });
+      }
+      window.addEventListener("keydown", function(e) {
+        if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          e.preventDefault();
+        }
+      }, false);
+      window.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+          closeHowTo();
+        }
+      });
+      document.getElementById("howToOverlay").addEventListener("click", function(e) {
+        if (e.target.id === "howToOverlay") {
+          closeHowTo();
+        }
+      });
+
+      var errorLog = document.getElementById("errorLog");
+      var Module = {
+        arguments: IS_MOBILE ? ["./", "mobile"] : ["./"], // the game reads "mobile" to turn on the touch controls
+        INITIAL_MEMORY: 200000000,
+        printErr: function(msg) {
+          console.error(msg);
+          errorLog.style.display = "block";
+          errorLog.textContent += String(msg) + "\n";
+        },
+        canvas: (function() {
+          var canvas = document.getElementById("canvas");
+          canvas.addEventListener("webglcontextlost", function(e) {
+            alert("WebGL context lost. You will need to reload the page.");
+            e.preventDefault();
+          }, false);
+          return canvas;
+        })(),
+        setStatus: function(text) {
+          if (text) {
+            drawLoadingText(text);
+          } else if (Module.remainingDependencies === 0) {
+            document.getElementById("loadingCanvas").style.display = "none";
+            document.getElementById("canvas").style.visibility = "visible";
+          }
+        },
+        totalDependencies: 0,
+        remainingDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.remainingDependencies = left;
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? "Preparing... (" + (this.totalDependencies - left) + "/" + this.totalDependencies + ")" : "All downloads complete.");
+        }
+      };
+
+      Module.setStatus("Downloading...");
+      window.onerror = function() {
+        Module.setStatus("Exception thrown, see JavaScript console");
+        Module.setStatus = function(text) {
+          if (text) Module.printErr("[post-exception status] " + text);
+        };
+      };
+
+      function showGameCanvas() {
+        document.getElementById("loadingCanvas").style.display = "none";
+        document.getElementById("canvas").style.visibility = "visible";
+      }
+
+      var applicationLoad = function() {
+        FullScreenHook();
+        Love(Module).then(showGameCanvas);
+        setTimeout(showGameCanvas, 2000);
+      };
+    </script>
+    <script type="text/javascript" src="game.js"></script>
+    <script async type="text/javascript" src="love.js" onload="applicationLoad(this)"></script>
+  </body>
+</html>

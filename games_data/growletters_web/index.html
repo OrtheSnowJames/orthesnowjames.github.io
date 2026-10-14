@@ -1,38 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/games_data/growletters_web/">
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="growletters">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>growletters</title>
-  <link rel="manifest" href="manifest.json">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Grow Letters</title>
+    <link rel="icon" href="../../favicon.svg">
+    <link rel="stylesheet" href="../../game-guide.css">
+    <script src="../../game-guide.js" defer></script>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+    <main>
+        <iframe class="game-frame" src="game-runtime.html" title="Grow Letters" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <section class="game-guide" aria-labelledby="guide-title" data-guide="../growletters_help.txt">
+            <h1 id="guide-title">How to play Grow Letters</h1>
+            <p class="guide-status" role="status">Loading guide...</p>
+            <div class="guide-content"></div>
+            <a class="guide-source" href="../growletters_help.txt">Open text guide</a>
+        </section>
+    </main>
 </body>
 </html>

@@ -1,0 +1,16 @@
+* { box-sizing: border-box; }
+html { color-scheme: dark; }
+body { margin: 0; background: #101010; color: #eee; font: 16px/1.7 system-ui, sans-serif; }
+.game-frame { display: block; width: 100%; height: 90vh; height: 90svh; border: 0; background: #000; }
+.game-guide { width: min(100%, 800px); margin: 0 auto; padding: 32px 24px 64px; overflow-wrap: anywhere; }
+.game-guide h1 { margin: 0 0 24px; font-size: 26px; line-height: 1.3; }
+.game-guide h2 { margin: 28px 0 8px; color: #a4d8ff; font-size: 18px; line-height: 1.4; }
+.game-guide p { margin: 8px 0; }
+.game-guide ul { padding-left: 24px; margin: 8px 0 20px; }
+.game-guide li { padding-left: 4px; margin: 8px 0; }
+.guide-source { display: inline-block; margin-top: 24px; color: #f6dd87; text-underline-offset: 4px; }
+.guide-source:focus-visible { outline: 2px solid #a4d8ff; outline-offset: 4px; }
+@media (max-width: 480px) {
+    .game-guide { padding: 24px 20px 48px; }
+    .game-guide h1 { font-size: 22px; }
+}

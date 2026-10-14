@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <title>Darkswing</title>
+    <link rel="icon" href="data:,">
+    <style>
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+      body { display: grid; place-items: center; color: #fff; font: 16px system-ui, sans-serif; }
+      canvas { display: block; width: 100%; height: 100%; outline: none; touch-action: none; }
+      #status { position: fixed; padding: 24px; text-align: center; }
+      #status[hidden] { display: none; }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600" tabindex="0" aria-label="Darkswing game"></canvas>
+    <div id="status" role="status">Loading Darkswing...</div>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const loadingStatus = document.getElementById('status');
+      canvas.addEventListener('contextmenu', event => event.preventDefault());
+      canvas.addEventListener('pointerdown', () => canvas.focus());
+      window.addEventListener('keydown', event => {
+        if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
+          event.preventDefault();
+        }
+      });
+      var Module = {
+        canvas,
+        onRuntimeInitialized() {
+          loadingStatus.hidden = true;
+          canvas.focus();
+        },
+        onAbort(reason) {
+          loadingStatus.hidden = false;
+          loadingStatus.textContent = 'Darkswing could not start. Reload to try again.';
+          console.error(reason);
+        },
+        print: console.log.bind(console),
+        printErr: console.error.bind(console),
+      };
+    </script>
+    <script src="darkswing.js" onerror="loadingStatus.hidden = false; loadingStatus.textContent = 'Darkswing could not load. Reload to try again.'"></script>
+  </body>
+</html>
