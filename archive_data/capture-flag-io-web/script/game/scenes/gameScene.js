@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 import { Scene } from "../../context-engine.mjs";
-import { naem, engine, lobbyPath, musicPlay, SERVER_URL } from "../../script.js";
+import { naem, engine, lobbyPath, musicPlay, SERVER_URL, CANVAS_WIDTH, CANVAS_HEIGHT } from "../../script.js";
 import { state } from "../state.js";
 import { GamePhase, PlayerLife } from "../enums.js";
 import { loadMaps, parseMap } from "../maps.js";
@@ -216,6 +216,17 @@ export class gameScene extends Scene {
 
     draw(ctx) {
         if (!drawWorld(this, ctx)) {
+            ctx.setCamera(0, 0);
+            ctx.setZoom(1);
+            ctx.clearBackground("black");
+            ctx.setTextAlign("center");
+            ctx.drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
+                "The server usually takes around 20-40 seconds to start.",
+                "white", CANVAS_WIDTH / 40);
+            ctx.drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + CANVAS_HEIGHT * 0.08,
+                "Please wait" + ".".repeat(1 + Math.floor(performance.now() / 500) % 3),
+                "white", CANVAS_WIDTH / 40);
+            ctx.setTextAlign("left");
             return;
         }
         if (state.life === PlayerLife.DEAD) {
