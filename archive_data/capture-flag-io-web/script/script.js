@@ -258,9 +258,11 @@ class menuScene extends Scene {
         ctx.drawText(
             CANVAS_WIDTH / 2,
             CANVAS_HEIGHT * 0.2,
-            "Welcome to capture-flag-io!!1",
+            this.#loading
+                ? "The server usually takes around 20-40 seconds to start. Please wait..."
+                : "Welcome to capture-flag-io!!1",
             "white",
-            this.titleSize
+            this.#loading ? CANVAS_WIDTH / 48 : this.titleSize
         );
         ctx.setTextAlign("left");
 
