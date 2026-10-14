@@ -11,6 +11,7 @@
     const presence = document.getElementById("chat-presence");
     const messageInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("chat-send");
+    const startupMessage = "The server usually takes around 20-40 seconds to start. Please wait...";
     let socket = null;
     let requestedName = null;
     let joined = false;
@@ -67,7 +68,7 @@
             if (requestedName) joinChat();
         });
         socket.on("connect_error", () => {
-            joinError.textContent = "Can't reach chat yet. Retrying...";
+            joinError.textContent = startupMessage;
             setConnected(false, "Reconnecting...");
         });
         socket.on("disconnect", () => {
@@ -140,7 +141,7 @@
         requestedName = name;
         nameInput.value = name;
         setJoining(true);
-        joinError.textContent = "Connecting...";
+        joinError.textContent = startupMessage;
         const client = getSocket();
         if (client.connected) joinChat();
         else client.connect();
