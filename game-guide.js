@@ -9,8 +9,36 @@ const guide = document.querySelector("[data-guide]");
 const status = guide.querySelector(".guide-status");
 const content = guide.querySelector(".guide-content");
 let guideRequest;
+let sizeObserver;
+let resizeFrame = 0;
+
+function fitGameContent() {
+    if (!frame.dataset.fitContent) return;
+    sizeObserver?.disconnect();
+    const game = frame.contentDocument.querySelector(frame.dataset.fitContent);
+    if (!game) return;
+    const resize = () => {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(() => {
+            // measure the game rather than the document so the frame can shrink again too
+            const bounds = game.getBoundingClientRect();
+            const gameBottom = bounds.height ? bounds.bottom + frame.contentWindow.scrollY : 0;
+            const height = Math.ceil(Math.max(window.innerHeight * 0.9, gameBottom));
+            if (frame.style.height !== `${height}px`) frame.style.height = `${height}px`;
+        });
+    };
+    sizeObserver = new ResizeObserver(resize);
+    sizeObserver.observe(game);
+    resize();
+}
+
+window.addEventListener("resize", () => {
+    if (guide.isConnected && frame.dataset.fitContent) fitGameContent();
+});
 
 function followGameNavigation() {
+    sizeObserver?.disconnect();
+    cancelAnimationFrame(resizeFrame);
     let destination;
     try {
         destination = new URL(frame.contentWindow.location.href);
@@ -22,7 +50,10 @@ function followGameNavigation() {
         return;
     }
     if (destination.href === "about:blank") return;
-    if (destination.origin === runtime.origin && destination.pathname === runtime.pathname) return;
+    if (destination.origin === runtime.origin && destination.pathname === runtime.pathname) {
+        fitGameContent();
+        return;
+    }
 
     // let the new page replace the shell instead of nesting another page and guide inside it
     guideRequest?.abort();
