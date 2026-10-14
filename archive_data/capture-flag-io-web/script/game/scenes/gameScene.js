@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 import { Scene } from "../../context-engine.mjs";
-import { naem, engine, lobbyPath, musicPlay } from "../../script.js";
+import { naem, engine, lobbyPath, musicPlay, SERVER_URL } from "../../script.js";
 import { state } from "../state.js";
 import { GamePhase, PlayerLife } from "../enums.js";
 import { loadMaps, parseMap } from "../maps.js";
@@ -105,7 +105,7 @@ export class gameScene extends Scene {
         this.loadedMap = "map1";
 
         try {
-            state.client = await io(`${lobbyPath}`, { transports: ['websocket'], upgrade: false });
+            state.client = await io(new URL(lobbyPath, SERVER_URL).href, { transports: ['websocket'], upgrade: false });
 
             await this.setupListeners();
 

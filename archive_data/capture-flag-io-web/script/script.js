@@ -8,6 +8,7 @@ const assetsBase = new URL("../assets/", import.meta.url);
 // filepath: /home/james/Documents/capture-flag-io/node/public/script/script.js
 
 export let naem = "";
+export const SERVER_URL = "https://capture-flag-io.onrender.com";
 export let lobbyPath = "";
 export let privcode = "";
 let switched = false;
@@ -188,11 +189,11 @@ class menuScene extends Scene {
             console.log("not private");
             (async () => {
                 try {
-                    const { path } = await fetch(`/lobby`).then(r => r.json());
+                    const { path } = await fetch(`${SERVER_URL}/lobby`).then(r => r.json());
                     lobbyPath = path;
         
                     const response = await fetch(
-                        `/check-name?name=${encodeURIComponent(entered)}&lobby=${lobbyPath}`
+                        `${SERVER_URL}/check-name?name=${encodeURIComponent(entered)}&lobby=${lobbyPath}`
                     ).then(r => r.json());
         
                     if (!response.available) {
@@ -217,13 +218,13 @@ class menuScene extends Scene {
             console.log("private");
             (async () => {
                 try {
-                    const { path, privcodee } = await fetch(`/lobby/newlobby`).then(r => r.json());
+                    const { path, privcodee } = await fetch(`${SERVER_URL}/lobby/newlobby`).then(r => r.json());
                     lobbyPath = path;
                     await console.log(lobbyPath);
                     privcode = privcodee;
                     // check name
                     const response = await fetch(
-                        `/check-name?name=${encodeURIComponent(entered)}&lobby=${lobbyPath}`
+                        `${SERVER_URL}/check-name?name=${encodeURIComponent(entered)}&lobby=${lobbyPath}`
                     ).then(r => r.json());
 
                     if (!response.available) {
@@ -370,7 +371,7 @@ class privateJoinScene extends Scene {
                     lobbyPath = path;
         
                     const response = await fetch(
-                        `/check-name?name=${encodeURIComponent(this.nameField.text)}&lobby=${lobbyPath}`
+                        `${SERVER_URL}/check-name?name=${encodeURIComponent(this.nameField.text)}&lobby=${lobbyPath}`
                     ).then(r => r.json());
         
                     if (!response.available) {
