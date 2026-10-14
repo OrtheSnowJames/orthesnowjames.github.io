@@ -1,1 +1,19 @@
-Darkswing is a game where you adventure through a dark climbing course with a grapple and a flashlight. The main controls are W to jump, A and D to move/swing left and right, E to launch a grapple or pull yourself toward it, and 1 and 2 to switch between grapple and flashlight respectively. I like the dark mode. It's very challenging. However, you can always turn the lights on with F. When you grapple and press E, you can land on the side of the block which lets you jump up to the top of the block. My strategy is I hold W the whole time so it keeps jumping up.
+GOAL
+Climb through a dark obstacle course using your grapple and flashlight.
+
+CONTROLS
+- W: jump.
+- A / D: move or swing left / right.
+- E: launch a grapple or pull yourself toward it.
+- 1: select the grapple.
+- 2: select the flashlight.
+- F: turn the lights on.
+
+CLIMB A BLOCK
+- Grapple toward a block.
+- Press E to pull yourself onto its side.
+- Jump from the side to reach the top.
+
+TIPS
+- Hold W to keep jumping as you climb. That's my strategy!
+- Keep the lights off for a harder challenge, or press F when you need a clearer view.

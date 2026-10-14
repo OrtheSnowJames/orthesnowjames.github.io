@@ -1,1 +1,15 @@
-The multiplayer game. It was my first "official" coding project. Multiplayer game was a game developed by Andy and I back in the day. When I looked back on it, I realized how much better I can code nowadays. First, I fixed up the UI. I made an actual name prompt and made the chat look better. I kept most of the old game intact for nostalgia, but I did change one thing. In the dungeon, you can actually fight zombies. I remember wanting to implement this when we were making the game, but Andy and I sort of abandoned the game and moved on. Now, I finally get the chance to "remaster" the game. The zombies go to you, and you can kill them by looking in their direction and pressing f to fire a beam of light, killing them for 3 seconds. The controls are very simple. WASD to move, and F to fire.
+GET STARTED
+Enter a name, explore with other players, and try the dungeon.
+
+CONTROLS
+- WASD: move.
+- F: fire a beam of light in the direction you are facing.
+
+IN THE DUNGEON
+- Zombies move toward you.
+- Face a zombie, then press F to hit it with your beam.
+- A hit takes the zombie out for 3 seconds. Keep moving!
+
+ABOUT THE GAME
+This was my first "official" coding project, made with Andy.
+The remaster keeps most of the original game, with a clearer name prompt, updated chat, and the zombie combat we always wanted to add.
