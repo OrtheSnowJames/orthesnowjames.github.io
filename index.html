@@ -6,7 +6,10 @@
     <title>james's stuff</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="chat.css" />
     <script src="games.js" defer></script>
+    <script src="archive_data/multiplayer_game_web/socket.io.min.js" defer></script>
+    <script src="chat.js" defer></script>
 </head>
 <body class="home-page" data-github-url="https://github.com/OrtheSnowJames">
     <main class="catalog-page">
@@ -15,6 +18,7 @@
             <a href="#games">Games</a>
             <a href="#archive">Archive</a>
             <a href="#other-tools">Other Tools</a>
+            <a href="#chat">Chat</a>
         </nav>
         <section class="games-section" id="games" data-catalog="games.json" aria-labelledby="games-title">
             <div class="games-content">
@@ -41,6 +45,35 @@
                 <button class="catalog-retry" id="tools-retry" type="button" hidden>Try again</button>
                 <div class="games-grid" id="tools-grid"></div>
                 <noscript><p>Enable JavaScript to view the tools.</p></noscript>
+            </div>
+        </section>
+        <section class="games-section chat-section" id="chat" aria-label="Chat">
+            <div class="chat-app" id="chat-app" data-server-url="https://multiplayer-game-j0cm.onrender.com">
+                <div id="chat-entry" class="chat-entry">
+                    <img class="chat-player" src="favicon.svg" alt="" width="64" height="64" />
+                    <h2>Chat</h2>
+                    <form id="chat-join-form" class="chat-join-form" novalidate>
+                        <label for="chat-name">Enter your name</label>
+                        <div class="chat-name-field">
+                            <input id="chat-name" name="nickname" type="text" maxlength="20" autocomplete="nickname" enterkeyhint="go" spellcheck="false" aria-describedby="chat-join-error" required />
+                            <button id="chat-join-button" class="chat-icon-button" type="submit" aria-label="Join chat" title="Join chat"><img src="archive_data/multiplayer_game_web/icons/arrow-right.svg" alt="" /></button>
+                        </div>
+                        <p id="chat-join-error" class="chat-join-error" role="status"></p>
+                    </form>
+                    <noscript><p>JavaScript is required to join the chat.</p></noscript>
+                </div>
+                <section id="chat-panel" class="chat-panel" aria-labelledby="chat-title" hidden>
+                    <header class="chat-header">
+                        <h2 id="chat-title">Chat</h2>
+                        <span id="chat-connection" class="chat-connection" role="status">Connected</span>
+                        <button id="chat-leave" class="chat-icon-button" type="button" aria-label="Leave chat" title="Leave chat"><img src="archive_data/multiplayer_game_web/icons/arrow-left.svg" alt="" /></button>
+                    </header>
+                    <div id="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+                    <form id="chat-form" class="chat-form">
+                        <input id="chatInput" placeholder="Message..." aria-label="Chat message" maxlength="300" autocomplete="off" enterkeyhint="send" disabled />
+                        <button id="chat-send" class="chat-icon-button" type="submit" aria-label="Send message" title="Send message" disabled><img src="archive_data/multiplayer_game_web/icons/send.svg" alt="" /></button>
+                    </form>
+                </section>
             </div>
         </section>
     </main>
