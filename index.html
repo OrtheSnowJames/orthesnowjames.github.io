@@ -7,12 +7,19 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="chat.css" />
+    <link rel="stylesheet" href="professional.css" />
+    <script src="professional.js"></script>
     <script src="games.js" defer></script>
     <script src="archive_data/multiplayer_game_web/socket.io.min.js" defer></script>
     <script src="chat.js" defer></script>
 </head>
 <body class="home-page" data-github-url="https://github.com/OrtheSnowJames">
     <main class="catalog-page">
+        <div class="mode-bar">
+            <button id="professional-mode" class="mode-toggle" type="button" role="switch" aria-checked="true">
+                <span>Professional mode</span><span class="mode-track" aria-hidden="true"></span>
+            </button>
+        </div>
         <h1 class="name-title">james's stuff</h1>
         <nav class="catalog-navigation" aria-label="Sections">
             <a href="#games">Games</a>
