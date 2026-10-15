@@ -52,14 +52,37 @@ html[data-professional="true"] { color-scheme: dark; background: #050505; overfl
 }
 
 [data-professional="true"] body::before {
+    /* create a layer that covers the screen and lets clicks pass through */
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: -1;
-    background-image: radial-gradient(circle, #65c8ff 1.5px, transparent 2px);
+
+    /* draw a tiny blue dot that fades to transparent at its edge */
+    background-image: radial-gradient(
+        circle,
+        #65c8ff 1.5px,
+        transparent 2px
+    );
+    /* repeat the dot in tiles that line up with the gray dots underneath */
     background-size: 28px 28px;
-    mask-image: radial-gradient(circle 240px at var(--pointer-x, -500px) var(--pointer-y, -500px), black, transparent);
+    background-repeat: repeat;
+
+    /* use the mask opacity to decide how much of the blue layer is visible */
+    mask-mode: alpha;
+    mask-image: radial-gradient(
+        /* center the mask on the mouse or offscreen before the mouse moves */
+        circle 240px at var(--pointer-x, -500px) var(--pointer-y, -500px),
+        /* fully reveal the blue dots at the center */
+        rgba(0, 0, 0, 1) 0%,
+        /* halfway to the edge reveal the blue dots at half opacity */
+        rgba(0, 0, 0, 0.5) 50%,
+        /* hide the blue dots at the edge so only the gray layer remains */
+        rgba(0, 0, 0, 0) 100%
+    );
+
+    /* hide this layer until the pointer active rule below fades it in */
     opacity: 0;
     transition: opacity 250ms ease;
 }
