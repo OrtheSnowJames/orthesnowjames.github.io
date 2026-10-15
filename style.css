@@ -147,6 +147,30 @@ button:focus-visible {
     background-repeat: no-repeat;
 }
 
+.game-panel.game-panel-labeled {
+    position: relative;
+    border: 2px solid #e9ce73;
+    padding-top: 48px;
+}
+
+.game-border-label {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    max-width: calc(100% - 24px);
+    margin: 0;
+    padding: 4px 10px;
+    background: #191919;
+    color: #ffe494;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
 .game-title {
     margin: 0;
     color: #fff;

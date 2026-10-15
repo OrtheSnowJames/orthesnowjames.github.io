@@ -18,6 +18,7 @@
     "how_to_play": "games_data/flowstate_help.txt"
   },
   "robsim": {
+    "border_label": "least complicated single player game",
     "description": "rob the poorly officiated bank",
     "image": "games_data/robsim_darkness.png",
     "gh_repo": "OrtheSnowJames/robsim",

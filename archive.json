@@ -1,5 +1,6 @@
 {
   "multiplayer game": {
+    "border_label": "least complicated multiplayer game",
     "description": "A multiplayer exploration game",
     "image": "archive_data/Screenshot 2026-10-11 at 7.17.51\u202fPM.png",
     "gh_repo": "OrtheSnowJames/multiplayer-game",

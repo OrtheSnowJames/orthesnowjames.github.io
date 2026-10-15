@@ -160,6 +160,14 @@ function createGamePanel(id, game) {
     const panel = document.createElement("article");
     panel.className = "game-panel";
 
+    if (game.border_label) {
+        panel.classList.add("game-panel-labeled");
+        const label = document.createElement("p");
+        label.className = "game-border-label";
+        label.textContent = game.border_label;
+        panel.append(label);
+    }
+
     if (game.image) {
         const imageUrl = new URL(game.image, document.baseURI);
         panel.style.backgroundImage = `url(${JSON.stringify(imageUrl.href)})`;

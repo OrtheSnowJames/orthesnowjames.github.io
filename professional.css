@@ -154,6 +154,7 @@ html[data-professional="true"] { color-scheme: dark; background: #050505; overfl
 }
 
 [data-professional="true"] .game-panel { min-height: 330px; padding: 24px; }
+[data-professional="true"] .game-panel.game-panel-labeled { border-color: #e9ce73; padding-top: 48px; }
 [data-professional="true"] .tool-panel { background: #141414; }
 [data-professional="true"] .tool-description { color: #bebebe; }
 
