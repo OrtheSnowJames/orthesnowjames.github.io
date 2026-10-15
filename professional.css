@@ -59,27 +59,16 @@ html[data-professional="true"] { color-scheme: dark; background: #050505; overfl
     pointer-events: none;
     z-index: -1;
 
-    /* draw a tiny blue dot that fades to transparent at its edge */
-    background-image: radial-gradient(
-        circle,
-        #65c8ff 1.5px,
-        transparent 2px
-    );
-    /* repeat the dot in tiles that line up with the gray dots underneath */
+    /* draw blue dots across the screen */
+    background-image: radial-gradient(circle, #65c8ff 1.5px, transparent 2px);
     background-size: 28px 28px;
-    background-repeat: repeat;
 
-    /* use the mask opacity to decide how much of the blue layer is visible */
+    /* show the dots at the mouse and fade them out over 240 pixels */
     mask-mode: alpha;
     mask-image: radial-gradient(
-        /* center the mask on the mouse or offscreen before the mouse moves */
-        circle 240px at var(--pointer-x, -500px) var(--pointer-y, -500px),
-        /* fully reveal the blue dots at the center */
-        rgba(0, 0, 0, 1) 0%,
-        /* halfway to the edge reveal the blue dots at half opacity */
-        rgba(0, 0, 0, 0.5) 50%,
-        /* hide the blue dots at the edge so only the gray layer remains */
-        rgba(0, 0, 0, 0) 100%
+        circle at var(--mouse-position),
+        white 0px,
+        transparent 240px
     );
 
     /* hide this layer until the pointer active rule below fades it in */

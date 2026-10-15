@@ -1,5 +1,7 @@
 (() => {
     const root = document.documentElement;
+    // keep the highlight offscreen until the mouse moves
+    root.style.setProperty("--mouse-position", "-500px -500px");
     let enabled = true;
     // restore the saved preference and start new visitors in professional mode
     try {
@@ -53,8 +55,7 @@
             if (frame) return;
             frame = requestAnimationFrame(() => {
                 // move the circular mask that reveals blue copies of the gray dots
-                root.style.setProperty("--pointer-x", `${x}px`);
-                root.style.setProperty("--pointer-y", `${y}px`);
+                root.style.setProperty("--mouse-position", `${x}px ${y}px`);
                 root.classList.add("pointer-active");
                 frame = 0;
             });
