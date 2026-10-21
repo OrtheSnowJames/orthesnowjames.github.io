@@ -5,3 +5,6 @@
 .aws/
 node_modules/
 /games_data/flowstate_macos.dmg
+/games_data/flowstate_windows.zip
+/games_data/flowstate_linux.zip
+/games_data/flowstate-quest.apk

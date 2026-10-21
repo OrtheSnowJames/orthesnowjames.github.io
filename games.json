@@ -10,10 +10,11 @@
   "flowstate": {
     "description": "epic pool fights",
     "image": "games_data/flowstate_intense_duel.png",
-    "gh_repo": "OrtheSnowJames/flowstate",
-    "windows_download": "games_data/flowstate_windows.zip",
-    "mac_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-macos-2026-10-14/flowstate_macos.dmg",
-    "linux_download": "games_data/flowstate_linux.zip",
+    "gh_repo": "OrtheSnowJames/flowstate-gd",
+    "windows_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-latest/flowstate_windows.zip",
+    "mac_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-latest/flowstate_macos.dmg",
+    "linux_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-latest/flowstate_linux.zip",
+    "oculus_quest_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-latest/flowstate-quest.apk",
     "wasm": "",
     "how_to_play": "games_data/flowstate_help.txt"
   },

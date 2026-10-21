@@ -26,4 +26,5 @@ DIFFERENT COLORED THINGS
 - Other colored rectangles are most likely walls.
 
 ABOUT THE GAME
+This brings back my memories of not-so-long-ago (like 2025 I think)
 A 2D take on Rec Room's paintball capture-the-flag mode. Best played with a crowd!

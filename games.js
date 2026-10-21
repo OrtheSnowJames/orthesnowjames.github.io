@@ -31,6 +31,7 @@ function getDownloads(game) {
         ["windows_download", "Windows"],
         ["mac_download", "Mac"],
         ["linux_download", "Linux"],
+        ["oculus_quest_download", "(Special) Quest"]
     ];
 
     for (const [key, platform] of platforms) {

@@ -12,4 +12,4 @@ IN THE DUNGEON
 
 ABOUT THE GAME
 This was my first "official" coding project, made with Andy.
-The remaster keeps most of the original game, with a clearer name prompt, updated chat, and the zombie combat we always wanted to add.
+The remaster keeps most of the original game, with a clearer name prompt, updated chat, and the zombie combat I sorta wanted to add.
