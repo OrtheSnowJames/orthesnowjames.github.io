@@ -99,6 +99,17 @@ async function openInstructions(path) {
     instructionsText.focus();
 
     try {
+        // linked guides open as articles instead of being fetched as text
+        if (/^https?:\/\//i.test(path)) {
+            const article = document.createElement("a");
+            article.href = path;
+            article.textContent = path;
+            article.target = "_blank";
+            article.rel = "noopener noreferrer";
+            instructionsText.replaceChildren("Read here: ", article);
+            return;
+        }
+
         const response = await fetch(path, { signal: request.signal });
         if (!response.ok) throw new Error(`Could not load instructions: ${response.status}`);
         const text = await response.text();

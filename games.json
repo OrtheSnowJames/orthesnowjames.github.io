@@ -16,7 +16,7 @@
     "linux_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-latest/flowstate_linux.zip",
     "oculus_quest_download": "https://github.com/OrtheSnowJames/orthesnowjames.github.io/releases/download/flowstate-latest/flowstate-quest.apk",
     "wasm": "",
-    "how_to_play": "games_data/flowstate_help.txt"
+    "how_to_play": "https://github.com/OrtheSnowJames/flowstate-gd/blob/main/README.md"
   },
   "robsim": {
     "border_label": "least complicated single player game",

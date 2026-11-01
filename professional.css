@@ -184,6 +184,8 @@ html[data-professional="true"] { color-scheme: dark; background: #050505; overfl
     color: #eee;
 }
 
+[data-professional="true"] .instructions-text a { color: #96d8ff; }
+
 [data-professional="true"] .is-reading .dialog-header {
     background: #202020;
     border-color: #444;
